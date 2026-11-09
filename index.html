@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SecurePass AI — a local password strength analyzer and secure password generator demo.">
+  <title>SecurePass AI | Password Strength Analyzer</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="SecurePass AI home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 72"><path d="M32 3 57 13v20c0 17-10 28-25 36C17 61 7 50 7 33V13L32 3Z" fill="currentColor"/><rect x="20" y="30" width="24" height="20" rx="4" fill="#fff"/><path d="M25 30v-6a7 7 0 0 1 14 0v6" fill="none" stroke="#fff" stroke-width="5"/><circle cx="32" cy="39" r="2.5" fill="#8e0010"/><path d="M32 41v4" stroke="#8e0010" stroke-width="2"/></svg>
+      </span>
+      <span class="brand-copy"><strong>SecurePass AI</strong><small>Password Strength Analyzer &amp; Generator</small></span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="active" href="#home">⌂ <span>Home</span></a>
+      <a href="#analysis">▥ <span>Analytics</span></a>
+      <a href="#generator">✥ <span>Generator</span></a>
+      <a href="#about">ⓘ <span>About</span></a>
+    </nav>
+  </header>
+
+  <main id="home" class="page">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">YOUR PERSONAL SECURITY COMPANION</p>
+        <h1>SecurePass AI</h1>
+        <p class="tagline">Check. Analyze. Generate. Stay Secure.</p>
+      </div>
+      <div class="hero-shield" aria-hidden="true">
+        <svg viewBox="0 0 180 190"><path d="M90 7 157 34v52c0 47-27 78-67 97C50 164 23 133 23 86V34L90 7Z" fill="url(#g)" stroke="#b90020" stroke-width="4"/><path d="M90 19 145 41v44c0 39-21 65-55 83-34-18-55-44-55-83V41l55-22Z" fill="none" stroke="#fff" stroke-width="3" opacity=".85"/><rect x="61" y="79" width="58" height="48" rx="9" fill="#fff"/><path d="M72 79V65a18 18 0 0 1 36 0v14" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round"/><circle cx="90" cy="98" r="6" fill="#980018"/><path d="M90 103v12" stroke="#980018" stroke-width="5" stroke-linecap="round"/><defs><linearGradient id="g" x1="25" y1="10" x2="150" y2="170"><stop stop-color="#ff6673"/><stop offset=".55" stop-color="#d00025"/><stop offset="1" stop-color="#760014"/></linearGradient></defs></svg>
+      </div>
+    </section>
+
+    <section class="main-grid" id="analysis">
+      <div class="left-column">
+        <article class="panel">
+          <div class="panel-heading"><span class="heading-icon">⌕</span><h2>Check a Password</h2></div>
+          <div class="panel-body">
+            <label class="sr-only" for="passwordInput">Enter a password to analyze</label>
+            <div class="password-field">
+              <input id="passwordInput" type="password" placeholder="Type or paste a password..." autocomplete="off" spellcheck="false">
+              <button id="togglePassword" class="icon-button" type="button" aria-label="Show password">◉</button>
+            </div>
+            <button id="analyzeBtn" class="primary-button" type="button"><span>✓</span> Analyze Password</button>
+            <p class="privacy-note">🔒 Your password is analyzed locally in this browser and is not sent to a server.</p>
+          </div>
+        </article>
+
+        <article class="panel strength-panel">
+          <div class="strength-ring" id="strengthRing" style="--score:0">
+            <div class="ring-inner"><strong id="scoreValue">—</strong><span id="strengthLabel">Not checked</span><small>SECURITY SCORE</small></div>
+          </div>
+          <div class="stats">
+            <div class="stat"><span class="stat-icon">▣</span><div><strong id="lengthValue">0 Characters</strong><small>Password length</small></div></div>
+            <div class="stat"><span class="stat-icon">▥</span><div><strong id="entropyValue">— bits</strong><small>Estimated entropy</small></div></div>
+            <div class="stat"><span class="stat-icon">✥</span><div><strong id="poolValue">0 characters</strong><small>Character pool</small></div></div>
+            <div class="length-status" id="lengthStatus">Enter a password to begin</div>
+          </div>
+        </article>
+      </div>
+
+      <div class="right-column">
+        <article class="panel">
+          <div class="panel-heading"><span class="heading-icon">✓</span><h2>Security Checklist</h2></div>
+          <ul class="checklist panel-body" id="checklist">
+            <li data-check="length"><span>✓</span> At least 12 characters</li>
+            <li data-check="upper"><span>✓</span> Include uppercase letters</li>
+            <li data-check="lower"><span>✓</span> Include lowercase letters</li>
+            <li data-check="number"><span>✓</span> Include numbers</li>
+            <li data-check="symbol"><span>✓</span> Include special characters</li>
+          </ul>
+        </article>
+        <article class="panel recommendations">
+          <div class="panel-heading"><span class="heading-icon">✦</span><h2>Recommendations</h2></div>
+          <ul class="recommendation-list panel-body" id="recommendations">
+            <li>Enter a password to receive suggestions.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel generator-panel" id="generator">
+      <div class="panel-heading"><span class="heading-icon">✥</span><h2>Generate Strong Password</h2></div>
+      <div class="generator-body">
+        <div class="generator-controls">
+          <label for="lengthSlider">Password length: <strong id="lengthOutput">16</strong></label>
+          <input id="lengthSlider" type="range" min="8" max="40" value="16">
+          <label class="option"><input id="includeNumbers" type="checkbox" checked> Numbers</label>
+          <label class="option"><input id="includeSymbols" type="checkbox" checked> Special characters</label>
+        </div>
+        <div class="generated-area">
+          <input id="generatedPassword" type="text" readonly aria-label="Generated password" value="Click Generate to create a password">
+          <div class="generator-actions">
+            <button id="generateBtn" class="primary-button" type="button">⟳ Generate</button>
+            <button id="copyBtn" class="outline-button" type="button">▢ Copy Password</button>
+          </div>
+          <p class="copy-status" id="copyStatus" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-strip" id="about">
+      <strong>SecurePass AI</strong><span>Your Security, Our Priority</span>
+      <span class="about-center">A browser-based password strength demo</span>
+      <strong>Stay Safe. Stay Secure.</strong>
+    </section>
+  </main>
+  <footer>© <span id="year"></span> SecurePass AI · Powered by Advanced Security Technology</footer>
+  <script src="script.js"></script>
+</body>
+</html>
